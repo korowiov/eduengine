@@ -8,6 +8,8 @@ gem 'ancestry'
 gem 'bcrypt'
 gem 'carrierwave'
 gem 'friendly_id'
+gem 'reform'
+gem 'reform-rails'
 
 group :development, :test do
   gem 'factory_bot_rails'

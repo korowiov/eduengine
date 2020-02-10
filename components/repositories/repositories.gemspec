@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'carrierwave', '~> 2.0'
   spec.add_dependency 'friendly_id', '~> 5.2.4'
   spec.add_dependency 'rails', '~> 6.0.0'
+  spec.add_dependency 'reform'
+  spec.add_dependency 'reform-rails'
 
   spec.add_development_dependency 'pg'
 end
