@@ -2,7 +2,7 @@ module Repositories
   module Resources
     class CreateForm < Repositories::BaseForm
       properties :author, :name, :description, :type
-      property :author_id, virtual: true
+      property :author_uuid, virtual: true
 
       validates :author, presence: true
       validates :name, presence: true
@@ -11,12 +11,11 @@ module Repositories
 
       private
 
-      def author_id=(value)
+      def author_uuid=(value)
         super(value)
-        author_resource = Repositories::Account.find_by(id: value)
+        author_resource = Repositories::Account.find_by(uuid: value)
         self.author = author_resource
       end
-
     end
   end
 end

@@ -6,7 +6,7 @@ module RepositoriesTests
       class ValidateTest < ActiveSupport::TestCase
         let(:params) do
           {
-            author_id: author.id,
+            author_uuid: author.uuid,
             name: 'Quiz name',
             description: 'Quiz description',
             type: 'quiz'
@@ -27,7 +27,7 @@ module RepositoriesTests
           describe 'Invalid params' do
             describe 'Missing author id' do
               before do
-                params.merge!(author_id: nil)
+                params.merge!(author_uuid: nil)
               end
 
               it 'returns false' do
@@ -37,13 +37,13 @@ module RepositoriesTests
 
             describe 'Invalid author id' do
               before do
-                params.merge!(author_id: 'invalid')
+                params.merge!(author_uuid: 'invalid')
               end
 
               it 'returns false' do
                 refute method_call
               end
-            end            
+            end
 
             describe 'Missing name' do
               before do
@@ -69,6 +69,14 @@ module RepositoriesTests
               before do
                 params.merge!(type: nil)
               end
+
+              it 'returns false' do
+                refute method_call
+              end
+            end
+
+            describe 'Empty params' do
+              let(:params) {{}}
 
               it 'returns false' do
                 refute method_call

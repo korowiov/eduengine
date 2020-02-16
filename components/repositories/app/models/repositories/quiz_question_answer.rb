@@ -2,8 +2,9 @@ module Repositories
   class QuizQuestionAnswer < ApplicationRecord
     include Reloadable
 
-    belongs_to :quiz_question, class_name: 'Repositories::QuizQuestion', 
-                               foreign_key: 'repositories_quiz_question_uuid',
-                               primary_key: 'uuid'
+    belongs_to :quiz_question_option, class_name: 'Repositories::QuizQuestionOption', 
+                                      foreign_key: 'quiz_question_option_uuid',
+                                      primary_key: 'uuid',
+                                      inverse_of: :quiz_question_answers
   end
 end

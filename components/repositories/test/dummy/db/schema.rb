@@ -43,33 +43,33 @@ ActiveRecord::Schema.define(version: 2019_11_01_225854) do
 
   create_table "repositories_quiz_question_answers", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
-    t.uuid "quiz_question_uuid"
+    t.uuid "quiz_question_option_uuid"
     t.text "content", null: false
     t.boolean "value", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["quiz_question_uuid"], name: "idx_question_on_answer"
+    t.index ["quiz_question_option_uuid"], name: "idx_option_on_answer"
     t.index ["uuid"], name: "index_repositories_quiz_question_answers_on_uuid"
   end
 
-  create_table "repositories_quiz_question_instances", force: :cascade do |t|
+  create_table "repositories_quiz_question_options", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.uuid "quiz_question_uuid"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_question_uuid"], name: "idx_option_on_question"
+    t.index ["uuid"], name: "index_repositories_quiz_question_options_on_uuid"
+  end
+
+  create_table "repositories_quiz_questions", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.uuid "resource_uuid"
     t.string "question_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["question_type"], name: "index_repositories_quiz_question_instances_on_question_type"
-    t.index ["resource_uuid"], name: "idx_quiz_on_instance"
-    t.index ["uuid"], name: "index_repositories_quiz_question_instances_on_uuid"
-  end
-
-  create_table "repositories_quiz_questions", force: :cascade do |t|
-    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
-    t.uuid "quiz_question_instance_uuid"
-    t.text "content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["quiz_question_instance_uuid"], name: "idx_instance_on_question"
+    t.index ["question_type"], name: "index_repositories_quiz_questions_on_question_type"
+    t.index ["resource_uuid"], name: "idx_quiz_on_question"
     t.index ["uuid"], name: "index_repositories_quiz_questions_on_uuid"
   end
 
