@@ -1,32 +1,11 @@
-require 'test_helper'
+require_relative 'base_test'
 
 module RepositoriesTests
   module QuizQuestionsTests
     module CreateFormTests
       module BooleanTypeTests
-        class ValidateTest < ActiveSupport::TestCase
-          let(:params) do
-            {
-              question_type: 'multiple_type',
-              quiz_question_options: [
-                {
-                  content: 'test',
-                  quiz_question_answers: [
-                    { content: 'test1', value: true },
-                    { content: 'test2', value: false }
-                  ]
-                }
-              ]
-            }
-          end
-          let(:author) { create(:account) }
-          let(:quiz) { create(:resource_quiz, author: author) }
-          let(:instance) { Repositories::QuizQuestions::CreateBooleanType.new(quiz.quiz_questions.new) }
+        class ValidateTest < BaseTest
           let(:method_call) { instance.validate(params) }
-
-          before do
-            quiz
-          end
 
           describe 'Method call .validate' do
             describe 'Valid params' do
