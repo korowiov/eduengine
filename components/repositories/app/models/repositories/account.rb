@@ -1,6 +1,6 @@
 module Repositories
   class Account < ApplicationRecord
-    include Reloadable
+    include Uuidable
 
     has_secure_password
 

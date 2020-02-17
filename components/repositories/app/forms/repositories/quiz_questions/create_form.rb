@@ -1,13 +1,11 @@
 module Repositories
   module QuizQuestions
     class CreateForm < Repositories::BaseForm
-      model ::Repositories::QuizQuestion
-
       properties :question_type
-      collection :quiz_question_options, form: ::Repositories::QuizQuestions::CreateOptionForm, 
+      collection :quiz_question_options, form: ::Repositories::QuizQuestionOptions::CreateForm, 
                                          populate_if_empty: ::Repositories::QuizQuestionOption
 
-      validates :question_type, inclusion: { in: %w[single_type multiple_type boolean_type match_type order_type] }
+      validates :question_type, inclusion: { in: %w[single_type multiple_type boolean_type match_type] }
     end
   end
 end

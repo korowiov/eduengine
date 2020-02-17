@@ -1,6 +1,6 @@
 module Repositories
   class QuizQuestionAnswer < ApplicationRecord
-    include Reloadable
+    include Uuidable
 
     belongs_to :quiz_question_option, class_name: 'Repositories::QuizQuestionOption', 
                                       foreign_key: 'quiz_question_option_uuid',

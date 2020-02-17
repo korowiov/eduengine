@@ -1,6 +1,6 @@
 module Repositories
   class QuizQuestion < ApplicationRecord
-    include Reloadable
+    include Uuidable
 
     enum question_type: {
       single_type: 'single_type',

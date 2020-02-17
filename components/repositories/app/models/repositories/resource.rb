@@ -1,6 +1,6 @@
 module Repositories
   class Resource < ApplicationRecord
-    include Reloadable
+    include Uuidable
 
     enum status: {
       draft: 'draft',
