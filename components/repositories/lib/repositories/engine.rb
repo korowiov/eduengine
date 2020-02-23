@@ -1,4 +1,3 @@
-require 'active_model_serializers'
 require 'ancestry'
 require 'bcrypt'
 require 'carrierwave'
