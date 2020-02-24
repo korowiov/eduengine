@@ -64,7 +64,7 @@ module RepositoriesTests
               it 'returns false' do
                 refute method_call
               end
-            end            
+            end
 
             describe 'Missing password' do
               before do

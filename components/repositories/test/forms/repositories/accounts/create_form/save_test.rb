@@ -3,7 +3,7 @@ require 'test_helper'
 module RepositoriesTests
   module AccountsTests
     module CreateFormTests
-      class ValidateTest < ActiveSupport::TestCase
+      class SaveTest < ActiveSupport::TestCase
         let(:params) do
           {
             email: 'user@example.com',

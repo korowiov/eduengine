@@ -10,10 +10,7 @@ module Repositories
       def by_credentials(email, password)
         return nil unless email.present? && password.present?
 
-        account = relation.where(
-          email: email
-        ).first
-
+        account = relation.find_by(email: email)
         account if account&.authenticate(password)
       end
 
@@ -22,6 +19,12 @@ module Repositories
 
         authentication_token_record = token_fetch_class_query.new.by_authentication_token(authentication_token)
         authentication_token_record&.account
+      end
+
+      def by_uuid(uuid)
+        return nil unless uuid.present?
+
+        relation.find_by(uuid: uuid)
       end
 
       private
