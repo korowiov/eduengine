@@ -1,6 +1,6 @@
 module Api
   class ApplicationController < ActionController::API
-    # protect_from_forgery with: :exception
+    include Api::Authentication::HelperMethods
 
     protected
 

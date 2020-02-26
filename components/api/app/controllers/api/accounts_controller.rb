@@ -1,3 +1,5 @@
+require_dependency 'api/application_controller'
+
 module Api
   class AccountsController < ApplicationController
     def create

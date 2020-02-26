@@ -1,5 +1,5 @@
 module Api
-  module Accounts
+  module Sessions
     class Create
       include Api::Patterns::Services
 
@@ -11,7 +11,7 @@ module Api
       end
 
       def call
-        form.validate(params) && form.save
+        form.validate(auth_token_params) && form.save
       end
 
       private
@@ -20,8 +20,15 @@ module Api
 
       def form
         @form ||=
-          Repositories::Accounts::CreateForm
-          .new(Repositories::Account.new)
+          Repositories::AuthenticationTokens::CreateForm
+          .new(Repositories::AuthenticationToken.new)
+      end
+
+      def auth_token_params
+        {
+          sign_in_ip: params[:ip],
+          account_uuid: params[:account_uuid]
+        }
       end
     end
   end
