@@ -1,16 +1,16 @@
 module Repositories
   module AuthenticationTokens
-    class FetchQuery
+    class FindQuery
       attr_reader :relation
 
-      def initialize(relation = Repositories::AuthenticationToken.all)
-        @relation = relation.includes(:account)
+      def initialize(relation = Repositories::AuthenticationToken)
+        @relation = relation
       end
 
       def by_authentication_token(authentication_token)
         return nil unless authentication_token.present?
 
-        relation.where(authentication_token: authentication_token).first
+        relation.find_by(authentication_token: authentication_token)
       end
     end
   end

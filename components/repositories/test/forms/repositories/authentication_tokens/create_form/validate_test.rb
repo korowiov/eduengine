@@ -4,6 +4,8 @@ module RepositoriesTests
   module AuthenticationTokensTests
     module CreateFormTests
       class ValidateTest < ActiveSupport::TestCase
+        include SharedContexts::SetEncryptionKey
+        
         let(:account) { create(:account) }
         let(:params) do
           {

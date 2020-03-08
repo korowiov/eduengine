@@ -11,6 +11,7 @@ require 'rails/test_help'
 # to be shown.
 Minitest.backtrace_filter = Minitest::BacktraceFilter.new
 
+Dir['./test/support/**/*.rb'].each {|f| require f}
 Dir['./test/factories/**/*.rb'].each {|f| require f}
 
 if ActiveSupport::TestCase.respond_to?(:fixture_path=)

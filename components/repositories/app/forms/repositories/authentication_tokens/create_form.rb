@@ -5,21 +5,15 @@ module Repositories
     class CreateForm < Repositories::BaseForm
       properties :account, :sign_in_ip, :authentication_token
       property :account_uuid, virtual: true
+      property :hashed_authentication_token, virtual: true
 
       validates :account, presence: true
       validates :authentication_token, presence: true
 
       def initialize(*args)
         super(*args)
-
-        loop do
-          generated_token = SecureRandom.uuid 
-
-          unless Repositories::Accounts::FetchQuery.new.by_authentication_token(generated_token)
-            self.authentication_token = generated_token
-            break
-          end
-        end
+        self.authentication_token = generate_authentication_token.first
+        self.hashed_authentication_token = generate_authentication_token.last
       end
 
       private
@@ -32,6 +26,10 @@ module Repositories
           .by_uuid(value)
 
         self.account = account_resource
+      end
+
+      def generate_authentication_token
+        @generate_authentication_token ||= Generator.prepare_tokens
       end
     end
   end
