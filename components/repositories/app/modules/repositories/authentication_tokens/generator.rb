@@ -4,16 +4,25 @@ module Repositories
   module AuthenticationTokens
     class Generator
       class << self
-        def decrypt(hashed_value)
-          new.decrypt(hashed_value)
+        def decrypt(account_uuid, hashed_value)
+          new(
+            account_uuid: account_uuid,
+            hashed_value: hashed_value
+          ).decrypt
         end
 
-        def prepare_tokens
-          new.prepare_tokens
+        def prepare_tokens(account_uuid)
+          new(account_uuid: account_uuid)
+            .prepare_tokens
         end
       end
 
-      def decrypt(hashed_value)
+      def initialize(account_uuid:, hashed_value: nil)
+        @account_uuid = account_uuid
+        @hashed_value = hashed_value
+      end
+
+      def decrypt
         cryptor.decrypt_and_verify(hashed_value, purpose: :auth_token)
       end
 
@@ -22,7 +31,7 @@ module Repositories
         hashed_token = cryptor
                        .encrypt_and_sign(
                          raw_token, 
-                         purpose: :auth_token, 
+                         purpose: :auth_token,
                          expires_in: 7.days
                        )
 
@@ -30,6 +39,8 @@ module Repositories
       end
 
       private
+
+      attr_reader :account_uuid, :hashed_value
 
       def cryptor
         @cryptor ||=
@@ -39,7 +50,13 @@ module Repositories
 
       def crypt_key
         @crypt_key ||=
-          ENV.fetch('ENCRYPTION_KEY')
+          begin
+            len = ActiveSupport::MessageEncryptor.key_len
+
+            ActiveSupport::KeyGenerator
+              .new(Rails.application.secrets.secret_key_base)
+              .generate_key(account_uuid, len)
+          end
       end
 
       def generate_raw_token

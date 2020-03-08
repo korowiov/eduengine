@@ -8,7 +8,7 @@ module Repositories
       end
 
       def by_authentication_token(authentication_token)
-        return nil unless authentication_token.present?
+        return nil if authentication_token.blank?
 
         relation.find_by(authentication_token: authentication_token)
       end
