@@ -1,15 +1,19 @@
-# class CollectionSerializer
-#   def initialize(objects, serializer, **kwargs)
-#     @objects    = objects
-#     @serializer = serializer
-#     @context    = kwargs
-#   end
+module Api
+  class CollectionSerializer
+    def initialize(objects, serializer, **kwargs)
+      @objects    = objects
+      @serializer = serializer
+      @context    = kwargs
+    end
 
-#   def call
-#     objects.map { |object| serializer.new(object, context).call }.compact
-#   end
+    def call
+      objects.map do |object| 
+        serializer.new(object, context).serializable_hash
+      end
+    end
 
-#   private
+    private
 
-#   attr_reader :objects, :serializer, :context
-# end
+    attr_reader :objects, :serializer, :context
+  end
+end

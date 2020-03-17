@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_01_225854) do
+ActiveRecord::Schema.define(version: 2020_03_09_230336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2019_11_01_225854) do
     t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "published_at"
     t.index ["author_uuid"], name: "idx_author_on_resource"
     t.index ["type"], name: "index_repositories_resources_on_type"
     t.index ["uuid"], name: "index_repositories_resources_on_uuid"

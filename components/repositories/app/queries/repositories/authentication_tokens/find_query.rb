@@ -1,16 +1,15 @@
 module Repositories
   module AuthenticationTokens
-    class FindQuery
-      attr_reader :relation
+    class FindQuery < Repositories::BaseQuery
+      set_relation Repositories::AuthenticationToken
 
-      def initialize(relation = Repositories::AuthenticationToken)
-        @relation = relation
-      end
+      class << self
+        def by_authentication_token(authentication_token)
+          return nil if authentication_token.blank?
 
-      def by_authentication_token(authentication_token)
-        return nil if authentication_token.blank?
-
-        relation.find_by(authentication_token: authentication_token)
+          relation
+            .find_by(authentication_token: authentication_token)
+        end
       end
     end
   end

@@ -8,8 +8,7 @@ module Api
 
         def authenticate!
           account = 
-            Repositories::Accounts::FetchQuery
-            .new
+            Repositories::Accounts::FindQuery
             .by_credentials(email, password)
 
           account.nil? ? fail!('strategies.credentials.failed') : success!(account)

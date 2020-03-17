@@ -6,7 +6,7 @@ module Repositories
       draft: 'draft',
       pending: 'pending',
       published: 'published',
-      unpublished: 'unpublished'
+      revoked: 'revoked'
     }
 
     belongs_to :author, class_name: 'Repositories::Account',

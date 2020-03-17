@@ -14,9 +14,9 @@ module Repositories
 
       def account_uuid=(value)
         super(value)
+
         account_resource = 
           Repositories::Accounts::FindQuery
-          .new
           .by_uuid(value)
 
         self.account = account_resource
