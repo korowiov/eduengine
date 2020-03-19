@@ -1,3 +1,4 @@
+require 'acts-as-taggable-on'
 require 'ancestry'
 require 'bcrypt'
 require 'carrierwave'

@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :resource, class: Repositories::Resource do
-    author { create(:account) }
     sequence(:name) { |n| "Resource name #{n}" }
+    author { create(:account) }
+    subject { create(:subject) }
 
     trait :draft do
       status { 'draft' }

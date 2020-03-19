@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
+  spec.add_dependency 'acts-as-taggable-on', '~> 6.0'
   spec.add_dependency 'ancestry'
   spec.add_dependency 'bcrypt'
   spec.add_dependency 'carrierwave', '~> 2.0'

@@ -7,12 +7,15 @@ module RepositoriesTests
         let(:params) do
           {
             author_uuid: author.uuid,
+            subject_id: subject.id,
             name: 'Quiz name',
             description: 'Quiz description',
-            type: 'quiz'
+            type: 'quiz',
+            tags: %w[tag1 tag2 tag3]
           }
         end
         let(:author) { create(:account) }
+        let(:subject) { create(:subject) }
         let(:resource) { Repositories::Resource.new }
         let(:instance) { Repositories::Resources::CreateForm.new(resource) }
         let(:method_call) { instance.validate(params) }
@@ -25,7 +28,7 @@ module RepositoriesTests
           end
 
           describe 'Invalid params' do
-            describe 'Missing author id' do
+            describe 'Missing author uuid' do
               before do
                 params.merge!(author_uuid: nil)
               end
@@ -35,9 +38,29 @@ module RepositoriesTests
               end
             end
 
-            describe 'Invalid author id' do
+            describe 'Invalid author uuid' do
               before do
                 params.merge!(author_uuid: 'invalid')
+              end
+
+              it 'returns false' do
+                refute method_call
+              end
+            end
+
+            describe 'Missing subject id' do
+              before do
+                params.merge!(subject_id: nil)
+              end
+
+              it 'returns false' do
+                refute method_call
+              end
+            end
+
+            describe 'Invalid subject id' do
+              before do
+                params.merge!(subject_id: 'invalid')
               end
 
               it 'returns false' do
@@ -68,6 +91,26 @@ module RepositoriesTests
             describe 'Missing type' do
               before do
                 params.merge!(type: nil)
+              end
+
+              it 'returns false' do
+                refute method_call
+              end
+            end
+
+            describe 'Invalid tag_list - passing single string' do
+              before do
+                params.merge!(tags: 'invalid')
+              end
+
+              it 'returns false' do
+                refute method_call
+              end
+            end
+
+            describe 'Invalid tag_list - passing array with empty string' do
+              before do
+                params.merge!(tags: [''])
               end
 
               it 'returns false' do

@@ -1,6 +1,7 @@
 module Repositories
   class Resource < ApplicationRecord
     include Uuidable
+    acts_as_taggable
 
     enum status: {
       draft: 'draft',
@@ -12,6 +13,10 @@ module Repositories
     belongs_to :author, class_name: 'Repositories::Account',
                         foreign_key: 'author_uuid',
                         primary_key: 'uuid'
+
+    belongs_to :subject, class_name: 'Repositories::Subject',
+                         foreign_key: 'subject_id',
+                         primary_key: 'id'
 
     scope :with_status, ->(status) do
       where(status: status)
