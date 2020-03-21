@@ -4,10 +4,6 @@ module Repositories
       set_relation Repositories::Resource
 
       class << self
-        def all
-          relation.all
-        end
-
         def by_newest(current_relation = nil)
           override_relation(current_relation) do
             relation.order(published_at: :desc)
@@ -32,6 +28,7 @@ module Repositories
           subject_resource = 
             Repositories::Subjects::FindQuery
             .by_slug(subject_slug)
+
           return relation.none unless subject_resource.present?
 
           relation.where(subject: subject_resource)
@@ -46,7 +43,9 @@ module Repositories
         end
 
         def published
-          relation.published
+          relation
+            .includes(:tags, :author, :subject)
+            .published
         end
       end
     end

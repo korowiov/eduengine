@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_213622) do
     t.string "name", null: false
     t.string "slug"
     t.string "ancestry"
+    t.integer "ancestry_depth", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ancestry"], name: "index_repositories_subjects_on_ancestry"

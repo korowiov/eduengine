@@ -7,8 +7,10 @@ module Api
     end
 
     def call
-      objects.map do |object| 
-        serializer.new(object, context).serializable_hash
+      [].tap do |elements|
+        objects.each do |object|
+          elements << serializer.new(object, context).serializable_hash
+        end
       end
     end
 

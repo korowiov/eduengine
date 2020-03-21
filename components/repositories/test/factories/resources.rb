@@ -3,6 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Resource name #{n}" }
     author { create(:account) }
     subject { create(:subject) }
+    sequence(:tag_list) { |n| ["tag#{n}"] }
 
     trait :draft do
       status { 'draft' }

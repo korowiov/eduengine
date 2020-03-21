@@ -2,13 +2,14 @@ module Api
   module Resources
     module Index
       class Params
-        ATTRS = %i[sort].freeze
+        ATTRS = %i[sort subjects].freeze
 
         include ActiveModel::Validations
         attr_reader *ATTRS
 
         validates :sort, inclusion: { in: %w[date_asc date_desc] },
                          allow_nil: true
+        validate :subjects_is_array, if: :subjects?
 
         def initialize(params = {})
           instance_variables(params.slice(*ATTRS))
@@ -26,6 +27,10 @@ module Api
           params_hsh.each do |name, value| 
             instance_variable_set("@#{name}", value)
           end
+        end
+
+        def subjects_is_array
+          errors.add(:subjects, :invalid) unless subjects.is_a? Array
         end
       end
     end

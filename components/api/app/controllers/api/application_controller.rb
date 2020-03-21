@@ -10,10 +10,9 @@ module Api
     end
 
     def render_collection(resource, serializer, context = {})
-      render json: 
-              Api::CollectionSerializer
-              .new(resource, serializer, context)
-              .call, 
+      render json: resource, 
+             each_serializer: serializer, 
+             serializer: ActiveModel::Serializer::CollectionSerializer,
              status: 200
     end
   end

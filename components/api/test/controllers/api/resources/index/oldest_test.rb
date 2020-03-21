@@ -3,7 +3,7 @@ require_relative 'base_test'
 module ApiTests
   module ResourceControllerTests
     module IndexTests
-      class NewestTest < BaseTest
+      class OldestTest < BaseTest
         let(:draft) do
           create_list(:resource, 10, :draft, type: 'Quiz', author: author)
         end
@@ -21,18 +21,17 @@ module ApiTests
           pending
           published
         end
-
+        
         describe 'Successful request' do
           let(:request_params) do
             {
-              sort: 'date_desc'
+              sort: 'date_asc'
             }
           end
 
           let(:expected_json) do
             published
               .sort_by(&:published_at)
-              .reverse
               .map do |resource|
                 resource_jsonify(resource)
               end
@@ -48,7 +47,7 @@ module ApiTests
             assert_equal expected_json, json_response
           end
         end
-      end 
+      end
     end
   end
 end

@@ -13,6 +13,11 @@ module Api
 
         def call
           resources = query_class.published
+
+          if params.subjects?
+            resources = query_class.by_subjects(params.subjects, resources)
+          end
+
           if params.sort?
             case params.sort
             when 'date_asc'

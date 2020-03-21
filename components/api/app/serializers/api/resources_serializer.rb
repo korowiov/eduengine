@@ -1,10 +1,25 @@
 module Api
   class ResourcesSerializer < Api::Patterns::Serializer
-    attributes :uuid, :name, :published
+    attributes :uuid, :name, :published, :author, :subject, :tags
+
+    def author
+      AccountsSerializer.new(object.author)
+    end
 
     def published
       date = object.published_at
-      date.strftime("%F %H:%M")
+      date&.strftime("%F %H:%M")
+    end
+
+    def subject
+      
+      SubjectsSerializer.new(object.subject)
+    end
+
+    def tags
+      CollectionSerializer
+        .new(object.tags, TagsSerializer)
+        .call
     end
   end
 end
