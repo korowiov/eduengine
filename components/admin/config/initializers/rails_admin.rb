@@ -11,7 +11,9 @@ RailsAdmin.config do |config|
     index
     new
     show
-    edit
+    edit do
+      except ['Repositories::QuizQuestion']
+    end
     delete
 
     config.model 'Repositories::QuizQuestion' do

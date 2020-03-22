@@ -20,8 +20,8 @@ module Repositories
       def authors_enum
         Repositories::Account
           .all
-          .map do |subject| 
-            [subject.nickname, subject.uuid]
+          .map do |author| 
+            [author.nickname, author.uuid]
           end
       end
 
