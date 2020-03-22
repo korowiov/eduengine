@@ -10,6 +10,8 @@ module Repositories
       revoked: 'revoked'
     }
 
+    has_one_attached :cover
+
     belongs_to :author, class_name: 'Repositories::Account',
                         foreign_key: 'author_uuid',
                         primary_key: 'uuid'

@@ -1,6 +1,8 @@
 module Repositories
   class QuizQuestionOption < ApplicationRecord
     include Uuidable
+    
+    has_one_attached :image
 
     has_many :quiz_question_answers, class_name: 'Repositories::QuizQuestionAnswer',
                                      foreign_key: 'quiz_question_option_uuid',

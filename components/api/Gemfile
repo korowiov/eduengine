@@ -7,8 +7,8 @@ path '..' do
   gem 'repositories'
 end
 
-gem 'warden'
 gem 'active_model_serializers'
+gem 'warden'
 
 group :development, :test do
   gem 'factory_bot_rails'
