@@ -25,6 +25,16 @@ module RepositoriesTests
             it 'returns true' do
               assert method_call
             end
+
+            describe 'Flashcards deck' do
+              before do
+                params.merge!(type: 'flashcards_deck')
+              end
+
+              it 'returns true' do
+                assert method_call
+              end              
+            end
           end
 
           describe 'Invalid params' do

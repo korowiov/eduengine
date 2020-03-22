@@ -45,6 +45,19 @@ module RepositoriesTests
             assert_equal params[:type], last_created.type
             assert_equal params[:tags], last_created.tag_list
           end
+
+          describe 'Flashcards deck' do
+            before do
+              params.merge!(type: 'flashcards_deck')
+            end
+
+            it 'creates new record with proper type' do
+              instance.validate(params)
+              instance.save
+  
+              assert_equal params[:type], last_created.type
+            end
+          end
         end
       end
     end

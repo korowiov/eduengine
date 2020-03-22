@@ -31,6 +31,13 @@ module RepositoriesTests
                 instance.save
               end
             end
+
+            it 'increments counter cache' do
+              assert_difference 'quiz.reload.associations_counter', 1 do
+                instance.validate(params)
+                instance.save
+              end
+            end            
           end
         end
       end

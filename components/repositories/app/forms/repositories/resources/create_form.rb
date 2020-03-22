@@ -10,7 +10,7 @@ module Repositories
       validates :subject, presence: true
       validates :name, presence: true
       validates :description, presence: true
-      validates :type, inclusion: { in: %w[quiz] }
+      validates :type, inclusion: { in: %w[quiz flashcards_deck] }
       validate :valid_tag_list
 
       private

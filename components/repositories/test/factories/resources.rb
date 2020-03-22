@@ -29,5 +29,9 @@ FactoryBot.define do
     factory :resource_quiz, class: Repositories::Resources::Quiz do
       type { 'Quiz' }
     end
+
+    factory :resource_flashcards_deck, class: Repositories::Resources::FlashcardsDeck do
+      type { 'FlashcardsDeck' }
+    end
   end
 end
