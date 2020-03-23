@@ -1,9 +1,11 @@
-require Repositories::Engine.root.join('app', 'models', 'repositories', 'resources', 'quiz')
+require Repositories::Engine.root.join('app', 'models', 'repositories', 'resources', 'flashcards_deck')
 
 module Repositories
   module Resources
-    class Quiz
+    class FlashcardsDeck
       attr_accessor :remove_cover
+
+      accepts_nested_attributes_for :flashcards, allow_destroy: true
 
       before_validation do
         self.tag_list = 
@@ -38,6 +40,7 @@ module Repositories
           end
           field :tags
           field :cover, :active_storage
+          field :flashcards
         end
 
         edit do
@@ -65,7 +68,7 @@ module Repositories
           field :status
           field :associations_counter do
             label do
-              'Questions counter'
+              'Flashcard counter'
             end
           end
           field :created_at

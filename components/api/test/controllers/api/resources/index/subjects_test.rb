@@ -51,7 +51,6 @@ module ApiTests
             end
   
             it 'returns proper json' do
-              binding.pry
               make_request
               assert_equal expected_json, json_response
             end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_173349) do
+ActiveRecord::Schema.define(version: 2020_03_22_224629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,18 @@ ActiveRecord::Schema.define(version: 2020_03_22_173349) do
     t.index ["authentication_token"], name: "idx_value_on_token"
   end
 
+  create_table "repositories_flashcards", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.uuid "resource_uuid"
+    t.string "title", null: false
+    t.text "front", null: false
+    t.text "back", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_uuid"], name: "idx_deck_on_flashcard"
+    t.index ["uuid"], name: "index_repositories_flashcards_on_uuid"
+  end
+
   create_table "repositories_quiz_question_answers", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.uuid "quiz_question_option_uuid"
@@ -106,6 +118,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_173349) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "published_at"
     t.bigint "subject_id"
+    t.integer "associations_counter", default: 0
     t.index ["author_uuid"], name: "idx_author_on_resource"
     t.index ["type"], name: "index_repositories_resources_on_type"
     t.index ["uuid"], name: "index_repositories_resources_on_uuid"

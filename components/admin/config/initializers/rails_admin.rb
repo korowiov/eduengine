@@ -1,5 +1,7 @@
 RailsAdmin.config do |config|
   config.excluded_models = [
+    'ActiveStorage::Attachment',
+    'ActiveStorage::Blob',
     'Repositories::AuthenticationToken',
     'Repositories::Resource'
   ]
@@ -10,9 +12,11 @@ RailsAdmin.config do |config|
     end
     index
     new
-    show
+    show do
+      except ['ActsAsTaggableOn::Tag']
+    end
     edit do
-      except ['Repositories::QuizQuestion']
+      except ['ActsAsTaggableOn::Tag', 'Repositories::QuizQuestion']
     end
     delete
 
@@ -27,5 +31,9 @@ RailsAdmin.config do |config|
     config.model 'Repositories::QuizQuestionAnswer' do
       parent Repositories::QuizQuestionOption
     end
+
+    config.model 'Repositories::Flashcard' do
+      parent Repositories::Resources::FlashcardsDeck
+    end   
   end
 end

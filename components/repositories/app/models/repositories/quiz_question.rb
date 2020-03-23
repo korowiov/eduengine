@@ -18,6 +18,7 @@ module Repositories
 
     belongs_to :quiz, class_name: 'Repositories::Resources::Quiz',
                       foreign_key: 'resource_uuid',
-                      primary_key: 'uuid'
+                      primary_key: 'uuid',
+                      counter_cache: :associations_counter
   end
 end

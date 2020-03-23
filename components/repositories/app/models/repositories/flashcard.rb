@@ -7,6 +7,8 @@ module Repositories
 
     belongs_to :flashcards_deck, class_name: 'Repositories::Resources::FlashcardsDeck',
                                  foreign_key: 'resource_uuid',
-                                 primary_key: 'uuid'
+                                 primary_key: 'uuid',
+                                 inverse_of: :flashcards,
+                                 counter_cache: :associations_counter
   end
 end
