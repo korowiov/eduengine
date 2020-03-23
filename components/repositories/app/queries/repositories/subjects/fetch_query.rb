@@ -9,11 +9,6 @@ module Repositories
 
           relation.where(id: subject_ids)
         end
-
-        # def by_ids_with_ancestors(subject_ids)
-        #   current_relation = self.by_ids(subject_ids)
-        #   binding.pry
-        # end
       end
     end
   end

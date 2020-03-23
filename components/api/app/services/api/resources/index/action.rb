@@ -14,6 +14,10 @@ module Api
         def call
           resources = query_class.published
 
+          if params.types?
+            resources = query_class.by_types(params.types, resources)
+          end
+
           if params.subjects?
             resources = query_class.by_subjects(params.subjects, resources)
           end

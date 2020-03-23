@@ -10,11 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_213622) do
+ActiveRecord::Schema.define(version: 2020_03_22_224629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "repositories_accounts", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
@@ -39,6 +60,18 @@ ActiveRecord::Schema.define(version: 2020_03_19_213622) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_uuid"], name: "idx_account_on_token"
     t.index ["authentication_token"], name: "idx_value_on_token"
+  end
+
+  create_table "repositories_flashcards", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.uuid "resource_uuid"
+    t.string "title", null: false
+    t.text "front", null: false
+    t.text "back", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_uuid"], name: "idx_deck_on_flashcard"
+    t.index ["uuid"], name: "index_repositories_flashcards_on_uuid"
   end
 
   create_table "repositories_quiz_question_answers", force: :cascade do |t|
@@ -85,6 +118,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_213622) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "published_at"
     t.bigint "subject_id"
+    t.integer "associations_counter", default: 0
     t.index ["author_uuid"], name: "idx_author_on_resource"
     t.index ["type"], name: "index_repositories_resources_on_type"
     t.index ["uuid"], name: "index_repositories_resources_on_uuid"
@@ -128,5 +162,6 @@ ActiveRecord::Schema.define(version: 2020_03_19_213622) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "taggings", "tags"
 end

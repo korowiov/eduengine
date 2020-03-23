@@ -18,6 +18,19 @@ module ApiTests
             end
           end
 
+          describe 'Invalid types param value' do
+            let(:request_params) do
+              {
+                types: ['invalid']
+              }
+            end
+
+            it 'returns 400' do
+              make_request
+              assert_response :bad_request
+            end
+          end
+
           describe 'User not signed in' do
             let(:make_request) { get '/api/resources' }
 

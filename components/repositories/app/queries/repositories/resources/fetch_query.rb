@@ -42,9 +42,17 @@ module Repositories
           end
         end
 
+        def by_types(types, current_relation = nil)
+          types = Array.wrap(types).map(&:classify)
+
+          override_relation(current_relation) do
+            relation.where(type: types)
+          end
+        end
+
         def published
           relation
-            .includes(:tags, :author, :subject)
+            .includes(:tags, :author, :subject, :cover_attachment)
             .published
         end
       end

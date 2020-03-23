@@ -12,14 +12,11 @@ module Api
     end
 
     def subject
-      
       SubjectsSerializer.new(object.subject)
     end
 
     def tags
-      CollectionSerializer
-        .new(object.tags, TagsSerializer)
-        .call
+      object.tags.pluck(:name)
     end
   end
 end
