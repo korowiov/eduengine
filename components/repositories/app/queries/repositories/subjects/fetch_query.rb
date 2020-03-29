@@ -9,6 +9,10 @@ module Repositories
 
           relation.where(id: subject_ids)
         end
+
+        def roots
+          relation.roots
+        end
       end
     end
   end

@@ -15,7 +15,7 @@ module ApiTests
           hsh[:published] = resource.published_at.strftime("%F %H:%M")
           hsh[:tags] = resource.tag_list
           hsh[:author] = resource.author.slice(:uuid, :email, :nickname)
-          hsh[:subject] = resource.subject.slice(:id, :name)
+          hsh[:subject] = resource.subject.slice(:id, :name, :icon_code)
           hsh
         end
       end

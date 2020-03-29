@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_224629) do
+ActiveRecord::Schema.define(version: 2020_03_29_101717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_224629) do
     t.integer "ancestry_depth", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "icon_code"
     t.index ["ancestry"], name: "index_repositories_subjects_on_ancestry"
     t.index ["slug"], name: "index_repositories_subjects_on_slug"
   end
