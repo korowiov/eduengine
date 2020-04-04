@@ -13,6 +13,10 @@ module Api
       end
     end
 
+    def show
+      render_object(current_account, Api::AccountsSerializer)
+    end
+
     private
 
     def request_ip

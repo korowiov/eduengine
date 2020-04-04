@@ -13,6 +13,7 @@ module Api
       def call
         session_created?.tap do |result|
           if result
+            model.account.expire_oldest_tokens!
             model.hashed_authentication_token = form.hashed_authentication_token
           end
         end

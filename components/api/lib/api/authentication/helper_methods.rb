@@ -1,7 +1,7 @@
 module Api
   module Authentication
     module HelperMethods
-      def authenticate!
+      def authenticate!        
         request.env['warden'].authenticate!
       end
 

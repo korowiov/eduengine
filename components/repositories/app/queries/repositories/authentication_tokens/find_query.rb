@@ -8,6 +8,7 @@ module Repositories
           return nil if authentication_token.blank?
 
           relation
+            .not_expired
             .find_by(authentication_token: authentication_token)
         end
       end

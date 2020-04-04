@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_101717) do
+ActiveRecord::Schema.define(version: 2020_04_04_151834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_03_29_101717) do
     t.string "sign_in_ip"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "expired", default: false
     t.index ["account_uuid"], name: "idx_account_on_token"
     t.index ["authentication_token"], name: "idx_value_on_token"
   end

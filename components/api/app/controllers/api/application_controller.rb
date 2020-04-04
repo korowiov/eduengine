@@ -15,5 +15,10 @@ module Api
              serializer: ActiveModel::Serializer::CollectionSerializer,
              status: 200
     end
+
+    def render_object(resource, serializer, context = {})
+      render json: serializer.new(resource).serializable_hash, 
+             status: 200
+    end
   end
 end

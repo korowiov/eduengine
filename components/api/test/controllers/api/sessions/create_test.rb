@@ -12,7 +12,7 @@ module ApiTests
           password: account_password
         }
       end
-      let(:make_request) { post '/api/sessions', params: params }
+      let(:make_request) { post '/api/session', params: params }
 
       before do
         stub_incoming_ip!
@@ -46,6 +46,7 @@ module ApiTests
           assert_equal request_ip, last_created.sign_in_ip
           assert_equal account, last_created.account
           assert_equal tokens.first, last_created.authentication_token
+          refute last_created.expired
         end
 
         it 'returns 201 code' do
@@ -56,6 +57,40 @@ module ApiTests
         it 'returns expected response' do
           make_request
           assert_equal json_response, expected_response
+        end
+
+        describe 'Already three authentication tokens created' do
+          let(:another_sessions) do
+            create_list(:authentication_token, 3, account: account)
+          end
+
+          before do
+            account.authentication_tokens.destroy_all
+            another_sessions.each_with_index do |session, index|
+              session.update(created_at: Time.now - index.minute)
+            end
+          end
+
+          it 'creates another new authentication token record' do
+            assert_difference 'Repositories::AuthenticationToken.count', 1 do
+              make_request
+            end
+          end
+
+          it 'sets oldest authentication token as expired' do
+            make_request
+            assert another_sessions.last.reload.expired
+          end
+
+          it 'returns 201 code' do
+            make_request
+            assert_response :created
+          end
+  
+          it 'returns expected response' do
+            make_request
+            assert_equal json_response, expected_response
+          end
         end
       end
 
