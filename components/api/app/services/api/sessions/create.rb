@@ -11,12 +11,23 @@ module Api
       end
 
       def call
-        form.validate(auth_token_params) && form.save
+        session_created?.tap do |result|
+          if result
+            model.hashed_authentication_token = form.hashed_authentication_token
+          end
+        end
       end
 
       private
 
       attr_reader :params
+
+      def auth_token_params
+        {
+          sign_in_ip: params[:ip],
+          account_uuid: params[:account_uuid]
+        }
+      end
 
       def form
         @form ||=
@@ -24,11 +35,8 @@ module Api
           .new(Repositories::AuthenticationToken.new)
       end
 
-      def auth_token_params
-        {
-          sign_in_ip: params[:ip],
-          account_uuid: params[:account_uuid]
-        }
+      def session_created?
+        form.validate(auth_token_params) && form.save
       end
     end
   end

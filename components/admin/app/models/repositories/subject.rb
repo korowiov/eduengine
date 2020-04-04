@@ -19,7 +19,13 @@ module Repositories
     end
 
     rails_admin do
+      field :id
       field :name
+      field :icon_code do
+        label do
+          'Icon'
+        end
+      end
       field :ancestry, :enum do
         enum_method do
           :parent_enum

@@ -16,6 +16,10 @@ module ApiTests
 
       before do
         stub_incoming_ip!
+        Repositories::AuthenticationTokens::Generator
+          .stubs(:prepare_tokens)
+          .with(account.uuid)
+          .returns(tokens)
       end
 
       describe 'Successful request' do
@@ -25,7 +29,8 @@ module ApiTests
 
         let(:expected_response) do
           {
-            'authentication_token' => last_created.authentication_token
+            'authentication_token' => tokens.last,
+            'uuid' => account.uuid
           }
         end
 
@@ -40,6 +45,7 @@ module ApiTests
 
           assert_equal request_ip, last_created.sign_in_ip
           assert_equal account, last_created.account
+          assert_equal tokens.first, last_created.authentication_token
         end
 
         it 'returns 201 code' do
@@ -74,8 +80,8 @@ module ApiTests
             make_request
             assert_response :unauthorized
           end
-        end        
-      end      
+        end
+      end
     end
   end
 end

@@ -32,7 +32,7 @@ module SharedContexts
     end
 
     def setup
-      super()    
+      super()
       account
       session
     end
