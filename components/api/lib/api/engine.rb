@@ -10,6 +10,7 @@ module Api
 
     config.autoload_paths += %W[#{config.root}/lib]
     config.generators.api_only = true
+
     config.middleware.use Warden::Manager do |manager|
       manager.default_strategies %i[authentication_token credentials]
       manager.failure_app = Api::UnauthorizedController

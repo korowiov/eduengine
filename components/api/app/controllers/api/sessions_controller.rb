@@ -17,6 +17,11 @@ module Api
       render_object(current_account, Api::AccountsSerializer)
     end
 
+    def destroy
+      current_session&.expire!
+      head :no_content
+    end
+
     private
 
     def request_ip

@@ -1,5 +1,7 @@
 module Repositories
   class Account < ApplicationRecord
+    attr_accessor :current_authentication_token
+
     include Uuidable
     ALLOWED_ACTIVE_TOKENS = 3.freeze
 

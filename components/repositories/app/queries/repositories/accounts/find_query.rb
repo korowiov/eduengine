@@ -22,7 +22,12 @@ module Repositories
             token_fetch_class_query
             .by_authentication_token(authentication_token)
   
-          authentication_token_record&.account
+          account = authentication_token_record&.account
+          if account
+            account.current_authentication_token = authentication_token_record
+          end
+
+          account
         end
   
         def by_uuid(account_uuid)

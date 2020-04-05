@@ -30,7 +30,9 @@ module ApiTests
         let(:expected_response) do
           {
             'authentication_token' => tokens.last,
-            'uuid' => account.uuid
+            'uuid' => account.uuid,
+            'email' => account.email,
+            'nickname' => account.nickname
           }
         end
 

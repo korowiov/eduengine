@@ -6,7 +6,7 @@ module Api
           email.present? && password.present?
         end
 
-        def authenticate!
+        def authenticate!        
           account = 
             Repositories::Accounts::FindQuery
             .by_credentials(email, password)
@@ -18,12 +18,21 @@ module Api
 
         def email
           @email ||=
-            params['email']
+            params['email'] || body['email']
         end
 
         def password
           @password ||=
-            params['password']
+            params['password'] || body['password']
+        end
+
+        def body
+          @body ||=
+            begin
+              JSON.parse(request.env['rack.input'].gets)
+            rescue
+              {}
+            end
         end
       end
     end
