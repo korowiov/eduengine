@@ -1,7 +1,8 @@
 module Repositories
   module Resources
     class CreateForm < Repositories::BaseForm
-      properties :author, :subject, :name, :description, :type, :tag_list
+      properties :author, :subject, :name, :description, :type, :tag_list, 
+                 :education_level
       property :author_uuid, virtual: true
       property :subject_id, virtual: true
       property :tags, virtual: true
@@ -11,6 +12,7 @@ module Repositories
       validates :name, presence: true
       validates :description, presence: true
       validates :type, inclusion: { in: %w[quiz flashcards_deck] }
+      validates :education_level, inclusion: { in: %w[grade_4_6 grade_7_8 grade_9_12] }
       validate :valid_tag_list
 
       private

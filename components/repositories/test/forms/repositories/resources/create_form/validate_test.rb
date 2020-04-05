@@ -11,7 +11,8 @@ module RepositoriesTests
             name: 'Quiz name',
             description: 'Quiz description',
             type: 'quiz',
-            tags: %w[tag1 tag2 tag3]
+            tags: %w[tag1 tag2 tag3],
+            education_level: 'grade_4_6'
           }
         end
         let(:author) { create(:account) }
@@ -33,7 +34,7 @@ module RepositoriesTests
 
               it 'returns true' do
                 assert method_call
-              end              
+              end
             end
           end
 
@@ -121,6 +122,16 @@ module RepositoriesTests
             describe 'Invalid tag_list - passing array with empty string' do
               before do
                 params.merge!(tags: [''])
+              end
+
+              it 'returns false' do
+                refute method_call
+              end
+            end
+
+            describe 'Invalid education level' do
+              before do
+                params.merge!(education_level: 'invalid')
               end
 
               it 'returns false' do

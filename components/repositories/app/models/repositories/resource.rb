@@ -10,6 +10,12 @@ module Repositories
       revoked: 'revoked'
     }
 
+    enum education_level: {
+      grade_4_6: 'grade_4_6',
+      grade_7_8: 'grade_7_8',
+      grade_9_12: 'grade_9_12'
+    }
+
     has_one_attached :cover
 
     belongs_to :author, class_name: 'Repositories::Account',

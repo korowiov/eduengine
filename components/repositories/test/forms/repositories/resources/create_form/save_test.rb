@@ -11,7 +11,8 @@ module RepositoriesTests
             name: 'Quiz name',
             description: 'Quiz description',
             type: 'quiz',
-            tags: %w[tag1 tag2 tag3]
+            tags: %w[tag1 tag2 tag3],
+            education_level: 'grade_4_6'
           }
         end
         let(:author) { create(:account) }

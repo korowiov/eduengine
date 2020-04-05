@@ -4,6 +4,7 @@ FactoryBot.define do
     author { create(:account) }
     subject { create(:subject) }
     sequence(:tag_list) { |n| ["tag#{n}"] }
+    education_level { 'grade_4_6' }
 
     trait :draft do
       status { 'draft' }
@@ -12,7 +13,7 @@ FactoryBot.define do
     trait :pending do
       status { 'pending' }
     end
-    
+
     trait :published do
       status { 'published' }
       published_at { Time.now }

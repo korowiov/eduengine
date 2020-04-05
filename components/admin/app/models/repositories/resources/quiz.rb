@@ -27,7 +27,7 @@ module Repositories
 
       rails_admin do
         create do
-          fields :name, :description, :subject
+          fields :name, :description, :subject, :education_level
           field :author_uuid, :enum do
             enum_method do
               :authors_enum
@@ -41,7 +41,7 @@ module Repositories
         end
 
         edit do
-          fields :name, :description, :subject
+          fields :name, :description, :subject, :education_level
           field :author_uuid, :enum do
             enum_method do
               :authors_enum
@@ -56,7 +56,7 @@ module Repositories
         end
 
         list do
-          fields :id, :uuid, :name, :subject
+          fields :id, :uuid, :name, :subject, :education_level
           field :author do
             pretty_value do
               value.nickname
@@ -73,7 +73,7 @@ module Repositories
 
         show do
           field :cover, :active_storage
-          fields :id, :uuid, :name, :subject
+          fields :id, :uuid, :name, :subject, :education_level
           field :author do
             pretty_value do
               value.nickname

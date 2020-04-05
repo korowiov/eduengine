@@ -3,13 +3,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gemspec
 
+gem 'acts-as-taggable-on'
 gem 'ancestry'
 gem 'bcrypt'
 gem 'carrierwave'
 gem 'friendly_id'
 gem 'reform'
 gem 'reform-rails'
-gem 'acts-as-taggable-on'
 
 group :development, :test do
   gem 'factory_bot_rails'
