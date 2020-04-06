@@ -10,6 +10,16 @@ module Repositories
           relation.where(id: subject_ids)
         end
 
+        def with_childrens(subject_ids)
+          return relation.none unless subject_ids.present?
+
+          relation
+            .where(id: subject_ids)
+            .or(
+              relation.where(ancestry: subject_ids)
+            )
+        end
+
         def roots
           relation.roots
         end

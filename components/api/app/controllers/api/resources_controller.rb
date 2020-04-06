@@ -16,7 +16,7 @@ module Api
     private
 
     def index_params
-      params.permit(:limit, :offest, :sort, subjects: [], types: [])
+      params.permit(:limit, :offest, :sort, :education, subjects: [], types: [])
     end
   end
 end

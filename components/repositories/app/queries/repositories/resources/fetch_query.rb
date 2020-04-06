@@ -16,11 +16,21 @@ module Repositories
           end
         end
 
-        def by_subjects(subject_ids, current_relation = nil)
-          subject_ids = Array.wrap(subject_ids)
+        def by_education_level(education_level, current_relation = nil)
+          education_levels = Array.wrap(education_level)
 
           override_relation(current_relation) do
-            relation.where(subject_id: subject_ids)
+            relation.where(education_level: education_levels)
+          end
+        end
+
+        def by_subjects(subject_ids, current_relation = nil)
+          subjects =
+            Repositories::Subjects::FetchQuery
+            .with_childrens(Array.wrap(subject_ids))
+
+          override_relation(current_relation) do
+            relation.where(subject: subjects)
           end
         end
 
@@ -52,8 +62,12 @@ module Repositories
 
         def published
           relation
-            .includes(:tags, :author, :subject, :cover_attachment)
-            .published
+            .includes(
+              :tags, 
+              :author, 
+              :cover_attachment,
+              subject: :parent
+            ).published
         end
       end
     end

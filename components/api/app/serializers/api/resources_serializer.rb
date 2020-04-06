@@ -1,6 +1,6 @@
 module Api
   class ResourcesSerializer < Api::Patterns::Serializer
-    attributes :uuid, :name, :published, :author, :subject, :tags
+    attributes :uuid, :name, :education_level, :published, :author, :subjects, :tags
 
     def author
       AccountsSerializer.new(object.author)
@@ -11,8 +11,13 @@ module Api
       date&.strftime("%F %H:%M")
     end
 
-    def subject
-      SubjectsSerializer.new(object.subject)
+    def subjects
+      [].tap do |elements|
+        elements.push(SubjectsSerializer.new(object.subject))
+        unless object.subject.root?
+          elements.push(SubjectsSerializer.new(object.subject.parent))
+        end
+      end
     end
 
     def tags

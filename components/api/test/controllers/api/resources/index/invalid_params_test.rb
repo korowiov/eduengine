@@ -31,6 +31,19 @@ module ApiTests
             end
           end
 
+          describe 'Invalid education param value' do
+            let(:request_params) do
+              {
+                education: 'invalid'
+              }
+            end
+
+            it 'returns 400' do
+              make_request
+              assert_response :bad_request
+            end
+          end
+
           describe 'User not signed in' do
             let(:make_request) { get '/api/resources' }
 

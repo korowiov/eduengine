@@ -18,6 +18,10 @@ module Api
             resources = query_class.by_types(params.types, resources)
           end
 
+          if params.education?
+            resources = query_class.by_education_level(params.education, resources)
+          end
+
           if params.subjects?
             resources = query_class.by_subjects(params.subjects, resources)
           end

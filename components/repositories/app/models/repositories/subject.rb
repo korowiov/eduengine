@@ -7,5 +7,10 @@ module Repositories
     has_many :resources, class_name: 'Repositories::Resource',
                          foreign_key: 'subject_id',
                          primary_key: 'id'
+    
+    belongs_to :parent, class_name: 'Repositories::Subject',
+                        foreign_key: 'ancestor',
+                        primary_key: 'id',
+                        optional: true
   end
 end

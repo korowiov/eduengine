@@ -23,6 +23,14 @@ FactoryBot.define do
       status { 'revoked' }
     end
 
+    trait :grade_7_8 do
+      education_level { 'grade_7_8' }
+    end
+
+    trait :grade_9_12 do
+      education_level { 'grade_9_12' }
+    end    
+
     trait :random_date do
       published_at { Time.at(rand((Time.now - (60*60*24*365*5))..Time.now)) }
     end

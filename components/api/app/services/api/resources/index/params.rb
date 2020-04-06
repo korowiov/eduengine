@@ -2,13 +2,17 @@ module Api
   module Resources
     module Index
       class Params
-        ATTRS = %i[sort subjects types].freeze
+        ATTRS = %i[education sort subjects types].freeze
 
         include ActiveModel::Validations
         attr_reader *ATTRS
-        
-        validates :sort, inclusion: { in: %w[date_asc date_desc] },
-                         allow_nil: true
+
+        validates :sort, 
+                  inclusion: { in: %w[date_asc date_desc] },
+                  allow_nil: true
+        validates :education, 
+                  inclusion: { in: Repositories::Resource.education_levels.keys },
+                  allow_nil: true
         validate :subjects_is_array, if: :subjects?
         validate :validate_allowed_types, if: :types?
 
