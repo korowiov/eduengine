@@ -28,7 +28,11 @@ module Repositories
 
       def subject_id=(value)
         super(value)
-        subject_resource = Repositories::Subjects::FindQuery.by_id(value)
+        subject_resource = 
+          Repositories::Subjects::FindQuery
+          .new
+          .by_id(value)
+
         self.subject = subject_resource
       end
 

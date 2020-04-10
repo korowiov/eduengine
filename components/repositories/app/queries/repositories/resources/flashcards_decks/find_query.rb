@@ -4,12 +4,13 @@ module Repositories
       class FindQuery < Repositories::BaseQuery
         set_initial_scope Repositories::Resources::FlashcardsDeck
 
-        def by_uuid(resource_uuid)
-          return nil unless resource_uuid.present?
+        def by_uuid(flashcard_deck_uuid)
+          return nil unless flashcard_deck_uuid.present?
 
           scope
+            .published
             .includes(:flashcards)
-            .find_by(uuid: resource_uuid)
+            .find_by(uuid: flashcard_deck_uuid)
         end
       end
     end

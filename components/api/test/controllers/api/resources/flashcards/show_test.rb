@@ -2,28 +2,26 @@ require 'test_helper'
 
 module ApiTests
   module ResourcesTests
-    module FlashcardsDecksControllerTests
+    module FlashcardsControllerTests
       class ShowTest < ActionDispatch::IntegrationTest
         include SharedContexts::StubSignedAccount
 
         let(:flashcard_deck) { create(:resource_flashcards_deck, :published) }
-        let(:flashcards) { create_list(:flashcard, 10, flashcards_deck: flashcard_deck) }
+        let(:flashcard) { create(:flashcard, flashcards_deck: flashcard_deck) }
         let(:flashcard_deck_id) { flashcard_deck.uuid }
+        let(:flashcard_id) { flashcard.uuid }
         let(:make_request) do
-          get "/api/resources/flashcards_decks/#{flashcard_deck_id}", headers: authentication_headers
+          get "/api/resources/flashcards_decks/#{flashcard_deck_id}/flashcards/#{flashcard_id}", headers: authentication_headers
         end
 
         before do
           flashcard_deck
-          flashcards
+          flashcard
         end
-
+    
         describe 'Successful request' do
           let(:expected_response) do
-            hsh = flashcard_deck.slice(:uuid, :name)
-            hsh[:flashcards_count] = flashcard_deck.associations_counter
-            hsh[:flashcards] = flashcards.map{ |f| f.slice(:title, :uuid) }
-            hsh
+            flashcard.slice(:uuid, :title, :front, :back)
           end
 
           it 'returns proper json' do
@@ -36,7 +34,7 @@ module ApiTests
             assert_response :ok
           end
         end
-        
+
         describe 'Unsuccessful request' do
           describe 'Flashcard deck is not published' do
             before do
@@ -58,9 +56,18 @@ module ApiTests
             end
           end
 
+          describe 'Flashcard invalid id' do
+            let(:flashcard_id) { 'invalid' }
+
+            it 'returns 404' do
+              make_request
+              assert_response :not_found
+            end
+          end
+
           describe 'User not signed in' do
             let(:make_request) do
-              get "/api/resources/flashcards_decks/#{flashcard_deck_id}"
+              get "/api/resources/flashcards_decks/#{flashcard_deck_id}/flashcards/#{flashcard_id}"
             end
 
             it 'returns 401' do
@@ -70,6 +77,6 @@ module ApiTests
           end
         end
       end
-    end 
+    end
   end
 end

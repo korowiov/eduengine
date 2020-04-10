@@ -5,8 +5,8 @@ module Api
     class FlashcardsController < AuthenticatedController
       def show
         flashcard =
-          Api::Flashcards::Show::Action
-          .call(params[:id])
+          Api::Resources::Flashcards::Show::Action
+          .call(params[:flashcards_deck_id], params[:id])
 
         render_object(flashcard, Api::FlashcardsSerializer)
       end
