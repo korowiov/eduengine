@@ -1,28 +1,26 @@
 module Repositories
   module Subjects
     class FetchQuery < Repositories::BaseQuery
-      set_relation Repositories::Subject
+      set_initial_scope Repositories::Subject
 
-      class << self
-        def by_ids(subject_ids)
-          return relation.none unless subject_ids.present?
+      def by_ids(subject_ids)
+        return scope.none unless subject_ids.present?
 
-          relation.where(id: subject_ids)
-        end
+        scope.where(id: subject_ids)
+      end
 
-        def with_childrens(subject_ids)
-          return relation.none unless subject_ids.present?
+      def with_childrens(subject_ids)
+        return scope.none unless subject_ids.present?
 
-          relation
-            .where(id: subject_ids)
-            .or(
-              relation.where(ancestry: subject_ids)
-            )
-        end
+        scope
+          .where(id: subject_ids)
+          .or(
+            scope.where(ancestry: subject_ids)
+          )
+      end
 
-        def roots
-          relation.roots
-        end
+      def roots
+        scope.roots
       end
     end
   end

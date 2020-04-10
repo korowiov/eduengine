@@ -1,20 +1,23 @@
 module Repositories
   class BaseQuery
     class << self
-      def set_relation(relation)
-        @relation = relation
+      def set_initial_scope(initial_scope)
+        @initial_scope = initial_scope
       end
 
-      def relation
-        raise NotImplementedError if @relation.nil?
+      def initial_scope
+        raise NotImplementedError if @initial_scope.nil?
 
-        @relation
-      end
-
-      def override_relation(current_relation = nil)
-        set_relation(current_relation) if current_relation.present?
-        yield
+        @initial_scope
       end
     end
+
+    def initialize(scope = nil)
+      @scope = scope || self.class.initial_scope
+    end
+
+    private
+
+    attr_reader :scope
   end
 end

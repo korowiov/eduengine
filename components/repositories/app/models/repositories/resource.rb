@@ -17,6 +17,17 @@ module Repositories
     }
 
     has_one_attached :cover
+    has_many :assigned_taggables, -> { where(taggable_type: [
+                                    'Repositories::Resource',
+                                    'Repositories::Resources::FlashcardsDeck',
+                                    'Repositories::Resources::Quiz'
+                                  ])},
+                                  class_name: 'ActsAsTaggableOn::Tagging',
+                                  foreign_key: 'taggable_id',
+                                  primary_key: 'id'
+
+    has_many :assigned_tags, through: :assigned_taggables,
+                             source: :tag
 
     belongs_to :author, class_name: 'Repositories::Account',
                         foreign_key: 'author_uuid',

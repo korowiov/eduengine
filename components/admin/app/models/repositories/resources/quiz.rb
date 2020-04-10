@@ -25,9 +25,26 @@ module Repositories
           end
       end
 
+      def subjects_enum
+        Repositories::Subject
+          .includes(:parent)
+          .map { |subject|
+            [subject.extended_label, subject.id]
+          }.sort_by { |el| el[0] }
+      end
+
       rails_admin do
         create do
-          fields :name, :description, :subject, :education_level
+          fields :name, :description
+          field :subject_id, :enum do
+            enum_method do
+              :subjects_enum
+            end
+            label do
+              'Subject'
+            end          
+          end
+          field :education_level
           field :author_uuid, :enum do
             enum_method do
               :authors_enum
@@ -41,7 +58,16 @@ module Repositories
         end
 
         edit do
-          fields :name, :description, :subject, :education_level
+          fields :name, :description
+          field :subject_id, :enum do
+            enum_method do
+              :subjects_enum
+            end
+            label do
+              'Subject'
+            end          
+          end
+          field :education_level
           field :author_uuid, :enum do
             enum_method do
               :authors_enum

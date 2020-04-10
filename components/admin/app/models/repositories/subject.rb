@@ -4,6 +4,14 @@ module Repositories
   class Subject
     include Repositories::Validations::SubjectValidation
 
+    def extended_label
+      if root?
+        name
+      else
+        "#{parent.name}/#{name}"
+      end
+    end
+
     before_validation do
       if self.ancestry.eql?('')
         self.ancestry = nil

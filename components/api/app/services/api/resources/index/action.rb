@@ -12,30 +12,9 @@ module Api
         end
 
         def call
-          resources = query_class.published
-
-          if params.types?
-            resources = query_class.by_types(params.types, resources)
-          end
-
-          if params.education?
-            resources = query_class.by_education_level(params.education, resources)
-          end
-
-          if params.subjects?
-            resources = query_class.by_subjects(params.subjects, resources)
-          end
-
-          if params.sort?
-            case params.sort
-            when 'date_asc'
-              resources = query_class.by_oldest(resources)
-            when 'date_desc'
-              resources = query_class.by_newest(resources)
-            end
-          end
-
-          resources
+          Repositories::Resources::FetchQuery
+          .new
+          .call(params)
         end
 
         private
@@ -44,10 +23,6 @@ module Api
 
         def raise_error!
           raise ExceptionHandler::InvalidResourceParams, 'Invalid params'
-        end
-
-        def query_class
-          Repositories::Resources::FetchQuery
         end
       end
     end

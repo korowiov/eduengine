@@ -1,74 +1,86 @@
 module Repositories
   module Resources
     class FetchQuery < Repositories::BaseQuery
-      set_relation Repositories::Resource
+      set_initial_scope Repositories::Resource
 
-      class << self
-        def by_newest(current_relation = nil)
-          override_relation(current_relation) do
-            relation.order(published_at: :desc)
+      def call(params)
+        @params = params
+        
+        scoped = include_associations(scope)
+        scoped = filter_by_types(scoped, types) if types?
+        scoped = filter_by_education_level(scoped, education) if education?
+        scoped = filter_by_subjects(scoped, subjects) if subjects?
+
+        if sort?
+          case sort
+          when 'date_asc' then scoped = sort_by_oldest(scoped)
+          when 'date_desc' then scoped = sort_by_newest(scoped)
+          else scoped
           end
         end
 
-        def by_oldest(current_relation = nil)
-          override_relation(current_relation) do
-            relation.order(published_at: :asc)
-          end
-        end
+        scoped
+      end
 
-        def by_education_level(education_level, current_relation = nil)
-          education_levels = Array.wrap(education_level)
+      private
 
-          override_relation(current_relation) do
-            relation.where(education_level: education_levels)
-          end
-        end
+      attr_reader :params
 
-        def by_subjects(subject_ids, current_relation = nil)
-          subjects =
-            Repositories::Subjects::FetchQuery
-            .with_childrens(Array.wrap(subject_ids))
+      delegate :education?, :sort?, :subjects?, :types?,
+               :education, :sort, :subjects, :types, to: :params
 
-          override_relation(current_relation) do
-            relation.where(subject: subjects)
-          end
-        end
+      def include_associations(scoped)
+        scoped
+          .includes(
+            :assigned_tags, 
+            :author, 
+            :cover_attachment,
+            subject: :parent
+          ).published
+      end
 
-        def by_subject_slug(subject_slug)
-          subject_resource = 
-            Repositories::Subjects::FindQuery
-            .by_slug(subject_slug)
+      def filter_by_education_level(scoped, education_level)
+        education_levels = Array.wrap(education_level)
+        scoped.where(education_level: education_levels)
+      end
 
-          return relation.none unless subject_resource.present?
+      def filter_by_tags(scoped, tags)
+        tags = Array.wrap(tags)
+        scoped.tagged_with(tags)
+      end
 
-          relation.where(subject: subject_resource)
-        end
+      def filter_by_types(scoped, types)
+        types = Array.wrap(types).map(&:classify)
+        scoped.where(type: types)
+      end
 
-        def by_tags(tags, current_relation = nil)
-          tags = Array.wrap(tags)
+      def filter_by_subjects(scoped, subject_ids)
+        subjects_ids =
+          Repositories::Subjects::FetchQuery
+          .new
+          .with_childrens(Array.wrap(subject_ids))
+          .pluck(:id)
 
-          override_relation(current_relation) do
-            relation.tagged_with(tags)
-          end
-        end
+        scoped.where(subject_id: subjects_ids)
+      end
 
-        def by_types(types, current_relation = nil)
-          types = Array.wrap(types).map(&:classify)
+      def by_subject_slug(scoped, subject_slug)
+        subject_resource = 
+          Repositories::Subjects::FindQuery
+          .new
+          .by_slug(subject_slug)
 
-          override_relation(current_relation) do
-            relation.where(type: types)
-          end
-        end
+        return scoped.none unless subject_resource.present?
 
-        def published
-          relation
-            .includes(
-              :tags, 
-              :author, 
-              :cover_attachment,
-              subject: :parent
-            ).published
-        end
+        scoped.where(subject: subject_resource)
+      end
+
+      def sort_by_newest(scoped)
+        scoped.order(published_at: :desc)
+      end
+
+      def sort_by_oldest(scoped)
+        scoped.order(published_at: :asc)
       end
     end
   end

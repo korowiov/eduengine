@@ -8,17 +8,15 @@ module Api
           @params = params
         end
 
-        def call
-          query_class.roots
+        def call       
+          Repositories::Subjects::FetchQuery
+            .new
+            .roots
         end
 
         private
 
         attr_reader :params
-
-        def query_class
-          Repositories::Subjects::FetchQuery
-        end
       end
     end
   end

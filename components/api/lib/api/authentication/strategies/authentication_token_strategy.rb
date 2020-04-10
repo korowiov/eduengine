@@ -9,6 +9,7 @@ module Api
         def authenticate!
           account = 
             Repositories::Accounts::FindQuery
+            .new
             .by_authentication_token(authentication_token, account_uuid)
 
           account.nil? ? fail('strategies.authentication_token.failed') : success!(account)

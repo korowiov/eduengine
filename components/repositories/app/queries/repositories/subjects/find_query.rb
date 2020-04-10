@@ -1,20 +1,18 @@
 module Repositories
   module Subjects
     class FindQuery < Repositories::BaseQuery
-      set_relation Repositories::Subject
+      set_initial_scope Repositories::Subject
 
-      class << self
-        def by_id(subject_id)
-          return nil unless subject_id.present?
+      def by_id(subject_id)
+        return nil unless subject_id.present?
 
-          relation.find_by(id: subject_id)
-        end 
+        scope.find_by(id: subject_id)
+      end 
 
-        def by_slug(slug)
-          return nil unless slug.present?
+      def by_slug(slug)
+        return nil unless slug.present?
 
-          relation.find_by(slug: slug)
-        end
+        scope.find_by(slug: slug)
       end
     end
   end

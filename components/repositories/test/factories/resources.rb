@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :resource, class: Repositories::Resource do
     sequence(:name) { |n| "Resource name #{n}" }
+    description { 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut turpis ut mi facilisis molestie.' }
     author { create(:account) }
     subject { create(:subject) }
     sequence(:tag_list) { |n| ["tag#{n}"] }

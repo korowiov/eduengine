@@ -6,9 +6,10 @@ module Api
           email.present? && password.present?
         end
 
-        def authenticate!        
+        def authenticate!
           account = 
             Repositories::Accounts::FindQuery
+            .new
             .by_credentials(email, password)
 
           account.nil? ? fail!('strategies.credentials.failed') : success!(account)

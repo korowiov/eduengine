@@ -19,7 +19,10 @@ module Repositories
 
       def author_uuid=(value)
         super(value)
-        author_resource = Repositories::Accounts::FindQuery.by_uuid(value)
+        author_resource = 
+          Repositories::Accounts::FindQuery
+          .new
+          .by_uuid(value)
         self.author = author_resource
       end
 

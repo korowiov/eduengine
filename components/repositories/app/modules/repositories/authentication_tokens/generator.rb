@@ -62,7 +62,7 @@ module Repositories
       def generate_raw_token
         loop do
           generated_token = SecureRandom.uuid 
-          unless FindQuery.by_authentication_token(generated_token)
+          unless FindQuery.new.by_authentication_token(generated_token)
             return generated_token
           end
         end
