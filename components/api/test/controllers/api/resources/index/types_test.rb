@@ -1,7 +1,7 @@
 require_relative 'base_test'
 
 module ApiTests
-  module ResourceControllerTests
+  module ResourcesControllerTests
     module IndexTests
       class TypesTest < BaseTest
         let(:quizzes) do

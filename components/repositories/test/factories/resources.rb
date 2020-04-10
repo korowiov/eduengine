@@ -36,11 +36,11 @@ FactoryBot.define do
       published_at { Time.at(rand((Time.now - (60*60*24*365*5))..Time.now)) }
     end
 
-    factory :resource_quiz, class: Repositories::Resources::Quiz do
+    factory :resource_quiz, parent: :resource, class: Repositories::Resources::Quiz do
       type { 'Quiz' }
     end
 
-    factory :resource_flashcards_deck, class: Repositories::Resources::FlashcardsDeck do
+    factory :resource_flashcards_deck, parent: :resource, class: Repositories::Resources::FlashcardsDeck do
       type { 'FlashcardsDeck' }
     end
   end

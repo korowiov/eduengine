@@ -1,7 +1,7 @@
 require_relative 'base_test'
 
 module ApiTests
-  module ResourceControllerTests
+  module ResourcesControllerTests
     module IndexTests
       class SubjectsTest < BaseTest
         let(:subject_1) { create(:subject) }

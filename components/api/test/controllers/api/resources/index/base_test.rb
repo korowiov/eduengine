@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module ApiTests
-  module ResourceControllerTests
+  module ResourcesControllerTests
     module IndexTests
       class BaseTest < ActionDispatch::IntegrationTest
         include SharedContexts::StubSignedAccount

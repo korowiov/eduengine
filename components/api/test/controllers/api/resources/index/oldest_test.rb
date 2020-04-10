@@ -1,7 +1,7 @@
 require_relative 'base_test'
 
 module ApiTests
-  module ResourceControllerTests
+  module ResourcesControllerTests
     module IndexTests
       class OldestTest < BaseTest
         let(:draft) do
