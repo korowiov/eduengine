@@ -2,6 +2,7 @@ require Repositories::Engine.root.join('app', 'models', 'repositories', 'quiz_qu
 
 module Repositories
   class QuizQuestion
+    accepts_nested_attributes_for :quiz_question_options, allow_destroy: true
 
     def question_type_enum
       Repositories::QuizQuestion
@@ -22,6 +23,7 @@ module Repositories
             'Question type'
           end
         end
+        field :quiz_question_options
       end
 
       list do

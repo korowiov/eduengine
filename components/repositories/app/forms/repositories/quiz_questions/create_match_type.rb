@@ -24,7 +24,7 @@ module Repositories
 
       def valid_question_answers?
         quiz_question_options
-          .collect { |option| option.quiz_question_answers }
+          .collect(&:quiz_question_answers)
           .flatten
           .all? { |answer| answer.value == true }
       end

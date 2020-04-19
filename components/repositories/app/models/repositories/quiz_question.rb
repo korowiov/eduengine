@@ -16,6 +16,11 @@ module Repositories
                                      inverse_of: :quiz_question,
                                      autosave: true
 
+    has_many :quiz_instance_answers, class_name: 'Repositories::QuizInstanceAnswer',
+                                     foreign_key: 'quiz_question_uuid',
+                                     primary_key: 'uuid',
+                                     inverse_of: :quiz_question
+
     belongs_to :quiz, class_name: 'Repositories::Resources::Quiz',
                       foreign_key: 'resource_uuid',
                       primary_key: 'uuid',

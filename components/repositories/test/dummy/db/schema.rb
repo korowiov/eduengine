@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_215820) do
+ActiveRecord::Schema.define(version: 2020_04_14_212952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,31 @@ ActiveRecord::Schema.define(version: 2020_04_05_215820) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["resource_uuid"], name: "idx_deck_on_flashcard"
     t.index ["uuid"], name: "index_repositories_flashcards_on_uuid"
+  end
+
+  create_table "repositories_quiz_instance_answers", force: :cascade do |t|
+    t.uuid "quiz_instance_uuid"
+    t.uuid "quiz_question_uuid"
+    t.jsonb "answer_options", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["answer_options"], name: "index_repositories_quiz_instance_answers_on_answer_options", using: :gin
+    t.index ["quiz_instance_uuid"], name: "idx_quiz_instance_on_answers"
+    t.index ["quiz_question_uuid"], name: "idx_quiz_question_on_answers"
+  end
+
+  create_table "repositories_quiz_instances", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.uuid "account_uuid"
+    t.uuid "quiz_uuid"
+    t.integer "score", default: 0
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_uuid"], name: "idx_account_on_quiz_instance"
+    t.index ["quiz_uuid"], name: "idx_resource_on_quiz_instance"
+    t.index ["uuid"], name: "index_repositories_quiz_instances_on_uuid"
   end
 
   create_table "repositories_quiz_question_answers", force: :cascade do |t|

@@ -22,7 +22,7 @@ module Api
 
           def flashcard
             @flashcard ||=
-              Repositories::Resources::Flashcards::FindQuery
+              Repositories::Flashcards::FindQuery
               .new
               .by_uuid(flashcard_deck_id, flashcard_id)
           end
