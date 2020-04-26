@@ -3,31 +3,31 @@ require_relative '../base_test'
 module RepositoriesTests
   module QuizInstanceAnswersTests
     module CreateFormTests
-      module SingleTypeTests
+      module MultipleTypeTests
         class ValidateTest < RepositoriesTests::QuizInstanceAnswersTests::CreateFormTests::BaseTest
           let(:option_uuid) do
-            quiz_question_1
+            quiz_question_2
               .quiz_question_options
               .first
               .uuid
           end
 
-          let(:answer_uuid) do
-            quiz_question_1
+          let(:answers_uuids) do
+            quiz_question_2
               .quiz_question_options
               .first
               .quiz_question_answers
-              .first
-              .uuid
+              .first(2)
+              .map(&:uuid)
           end
 
           let(:method_call) { instance.validate(params) }
 
           before do
             params.merge!(
-              quiz_question_uuid: quiz_question_1.uuid,
+              quiz_question_uuid: quiz_question_2.uuid,
               answer_options: {
-                "#{option_uuid}": [answer_uuid]
+                "#{option_uuid}": answers_uuids
               }
             )
           end
@@ -40,7 +40,7 @@ module RepositoriesTests
 
               describe 'Quiz instance answer already exists' do
                 let(:another_answer_uuid) do
-                  quiz_question_1
+                  quiz_question_2
                     .quiz_question_options
                     .first
                     .quiz_question_answers
@@ -52,7 +52,7 @@ module RepositoriesTests
                   create(
                     :quiz_instance_answer,
                     quiz_instance: quiz_instance,
-                    quiz_question: quiz_question_1,
+                    quiz_question: quiz_question_2,
                     answer_options: {
                       "#{option_uuid}": [another_answer_uuid]
                     }
@@ -123,7 +123,7 @@ module RepositoriesTests
               describe 'Invalid option uuid' do
                 before do
                   params.merge!(answer_options: {
-                    'invalid': [answer_uuid]
+                    'invalid': answers_uuids
                   })
                 end
 
@@ -134,7 +134,7 @@ module RepositoriesTests
 
               describe 'Option uuid from another question' do
                 let(:another_option_uuid) do
-                  quiz_question_2
+                  quiz_question_3
                     .quiz_question_options
                     .first
                     .uuid
@@ -142,7 +142,7 @@ module RepositoriesTests
 
                 before do
                   params.merge!(answer_options: {
-                    "#{another_option_uuid}": [answer_uuid]
+                    "#{another_option_uuid}": answers_uuids
                   })
                 end
 
@@ -177,7 +177,7 @@ module RepositoriesTests
 
               describe 'Answer uuid from another question' do
                 let(:another_answer_uuid) do
-                  quiz_question_2
+                  quiz_question_3
                     .quiz_question_options
                     .first
                     .quiz_question_answers

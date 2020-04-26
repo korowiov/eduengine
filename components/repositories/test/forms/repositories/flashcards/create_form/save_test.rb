@@ -22,7 +22,6 @@ module RepositoriesTests
           Repositories::Flashcards::CreateForm
             .new(flashcards_deck.flashcards.new)
         end
-        let(:method_call) { instance.validate(params) }
 
         before do
           flashcards_deck
